@@ -1,28 +1,8 @@
 import axios from "axios";
-import { getToken } from "./token";
 
-const URLdev = 'localhost'
-const URL = window.location.hostname === '' ? '' : ''
-const URLAplication = window.location.hostname === '' ? '' : ''
-const URLSocket = window.location.hostname === '' ? '' : ''
+const URL = 'http://127.0.0.1:5000'
+const URLSocket = 'http://127.0.0.1:5000'
 
-axios.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  if (error.response.status === 401) {
-    relocate()
-  }
-  if (error.response.status === 409) {
-    relocate()
-  }
-  return Promise.reject(error)
-});
-
-function relocate() {
-  if (window.location.hostname !== URLdev) {
-    window.location = URLAplication
-  }
-}
 
 class Api {
   static get(path) {
@@ -60,13 +40,9 @@ class Api {
   static getApiUrl() {
     return URL;
   }
-  static getAplicationUrl() {
-    return URLAplication;
-  }
   static getSocketUrl() {
     return URLSocket;
   }
 }
 
 export default Api;
-export const API_URL = URL;
