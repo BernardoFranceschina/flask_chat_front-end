@@ -1,17 +1,9 @@
-const ID_TOKEN_KEY = 'token';
+const ID_TOKEN_KEY = 'user';
 export const getToken = () => {
-    return localStorage.getItem(ID_TOKEN_KEY).replace('"', '')
+    return localStorage.getItem(ID_TOKEN_KEY) ? JSON.parse(localStorage.getItem(ID_TOKEN_KEY)).session : null
 };
 
 export const validToken = () => {
-    const base64Url = getToken().split('.')[1]
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    }).join(''))
-    if (JSON.parse(jsonPayload).exp < Date.now() / 1000) {
-        return false
-    } else {
-        return true
-    }
+    let regexUUID4 = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+    return regexUUID4.test(getToken())
 }

@@ -6,7 +6,7 @@ const URLSocket = 'http://127.0.0.1:5000'
 
 class Api {
   static get(path) {
-    return axios.get(`${URL}${path}`, this._getRequestOptions());
+    return axios.get(`${URL}${path}`, this._getHeaders());
   }
 
   static post(path, body) {
@@ -23,11 +23,6 @@ class Api {
     return axios.delete(`${URL}${path}`, this._getRequestOptions());
   }
 
-  static _getRequestOptions(options = {}) {
-    let requestOption = {};
-    requestOption.headers = this._getHeaders(options.headers);
-    return requestOption;
-  }
   static _getHeaders() {
     let headers = {
       "Content-Type": "application/json"
